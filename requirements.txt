@@ -1,0 +1,9 @@
+scipy
+numpy
+pandas
+scikit-learn
+blosc
+zstd
+lz4
+imbalanced-learn
+liac-arff

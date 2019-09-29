@@ -1,6 +1,6 @@
 from sklearn.preprocessing import StandardScaler
 
-from paje.searchspace.configspace import HPTree, ConfigSpace
+from paje.searchspace.configspace import ConfigSpace
 from paje.ml.element.preprocessing.unsupervised.feature.scaler.scaler import \
     Scaler
 from paje.searchspace.hp import CatHP
@@ -8,8 +8,10 @@ from paje.util.distributions import choice
 
 
 class Standard(Scaler):
-    def build_impl(self):
-        newconfig = self.config.copy()
+    def __init__(self, config, **kwargs):
+        super().__init__(config, **kwargs)
+
+        newconfig = self.param().copy()
         mean_std = newconfig.get('@with_mean/std')
         if mean_std is None:
             with_mean, with_std = True, True

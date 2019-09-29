@@ -1,6 +1,6 @@
 from imblearn.under_sampling import RandomUnderSampler
 
-from paje.searchspace.configspace import HPTree, ConfigSpace
+from paje.searchspace.configspace import ConfigSpace
 from paje.ml.element.preprocessing.supervised.instance.sampler.resampler \
     import Resampler
 from paje.searchspace.hp import CatHP
@@ -8,8 +8,9 @@ from paje.util.distributions import choice
 
 
 class RanUnderSampler(Resampler):
-    def build_impl(self):
-        self.model = RandomUnderSampler(**self.config)
+    def __init__(self, config, **kwargs):
+        super().__init__(config, **kwargs)
+        self.model = RandomUnderSampler(**self.param())
 
     @classmethod
     def cs_impl(cls, data=None):

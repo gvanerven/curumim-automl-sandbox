@@ -7,8 +7,15 @@ from paje.base.data import Data
 from paje.base.cache import Cache
 from paje.ml.element.modelling.supervised.classifier.dt import DT
 from paje.ml.element.modelling.supervised.classifier.nb import NB
+from paje.ml.element.modelling.supervised.classifier.nbp import NBP
+from paje.ml.element.preprocessing.supervised.instance.sampler.over.ran_over_sampler import \
+    RanOverSampler
+from paje.ml.element.preprocessing.supervised.instance.sampler.under.ran_under_sampler import \
+    RanUnderSampler
 from paje.ml.element.preprocessing.unsupervised.feature.scaler.equalization import \
     Equalization
+from paje.ml.element.preprocessing.unsupervised.feature.scaler.standard import \
+    Standard
 from paje.ml.metric.supervised.classification.mclassif import Metrics
 
 
@@ -20,20 +27,14 @@ def main():
     else:
         arg = {tupl.split('=')[0]: tupl.split('=')[1] for tupl in sys.argv[1:]}
 
-        dt = DT.cs()
-        nb = NB.cs()
-        eq = Equalization.cs()
-        pip2 = Seq.cs(config_spaces=[eq])
-        pip1 = Seq.cs(config_spaces=[dt])
-        sw = Any.cs(config_spaces=[dt, nb])
-        # pip1 = Pipeline.tree(config_spaces=[dt.tree()])
-        # pip2 = Pipeline.tree(config_spaces=[pip1])
-        print('configspace-----\n', pip1)
-        # print('config dt =======\n', dt.tree().sample())
-        print('config=======\n', pip1.sample())
-        # pip3 = Pipeline(components=[])
-        my_modelers = [dt]
-        my_preprocessors = [pip2]
+        custom = Seq.cs(config_spaces=[Equalization.cs(), Standard.cs()])
+        my_preprocessors = [custom,
+                            Equalization.cs(),
+                            Standard.cs(),
+                            RanOverSampler.cs(),
+                            RanUnderSampler.cs()]
+        my_modelers = [Any.cs(config_spaces=[DT.cs(), NB.cs()])]
+        #, NBP.cs()])] # <- requires non negative X
 
         for k, v in arg.items():
             print(f'{k}={v}')

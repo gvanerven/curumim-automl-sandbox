@@ -10,3 +10,6 @@ class Resampler(Element):
 
     def use_impl(self, data):
         return data
+
+    def modifies(self, op):
+        return ['X', 'Y']

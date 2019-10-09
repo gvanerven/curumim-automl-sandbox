@@ -22,7 +22,7 @@ from paje.ml.metric.supervised.classification.mclassif import Metrics
 def main():
     if len(sys.argv[1:]) < 1 or any(['=' not in k for k in sys.argv[1:]]):
         print('Usage: \npython toy.py data=/tmp/dataset.arff '
-              '[iter=#] [seed=#] [storage=mysql/sqlite/cached/file/sync] ['
+              '[iter=#] [seed=#] [storage=sqlite/amnesia] ['
               'db=dna] ')
     else:
         arg = {tupl.split('=')[0]: tupl.split('=')[1] for tupl in sys.argv[1:]}
